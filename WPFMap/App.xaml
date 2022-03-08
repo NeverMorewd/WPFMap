@@ -8,6 +8,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/WPFMap;component/Resource/ChinaMapOld.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/WPFMap;component/Resource/ChinaMap2.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WPFMap;component/Resource/NMWindowDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/WPFMap;component/Resource/WindowTitleBarDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

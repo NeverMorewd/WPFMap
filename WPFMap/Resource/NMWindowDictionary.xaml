@@ -1,0 +1,316 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                    
+                    xmlns:converter="clr-namespace:NM.Converter"
+                    xmlns:local="clr-namespace:NM.Framework.UI"
+                    xmlns:Behaviors="http://schemas.microsoft.com/xaml/behaviors">
+    <Color x:Key="ButtonMouseOverBackground">#30333C</Color>
+    <SolidColorBrush x:Key="ButtonMouseOverBackgroundDarkBrush" Color="{StaticResource ButtonMouseOverBackground}"></SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonMouseOverBackgroundRedBrush" Color="#ED2424"></SolidColorBrush>
+    <SolidColorBrush x:Key="TitleBarForegroundGrayBrush" Color="#CCCCCC"></SolidColorBrush>
+    <converter:NullToVisibilityConverter x:Key="EmptyObjectToVisibilityConverter" />
+    <Style x:Key="WindowTitleBarButtonStyle"
+           TargetType="{x:Type Button}">
+        <Setter Property="Focusable"
+                Value="False" />
+        <Setter Property="Width"
+                Value="25" />
+        <Setter Property="Height"
+                Value="25" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Center" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome"
+                Value="True" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="LayoutRoot"
+                          Background="Transparent">
+                        <Rectangle x:Name="ButtonBackground" RadiusX="5" RadiusY="5"
+                                   Fill="{TemplateBinding Background}"
+                                   Margin="0,0,0,0"
+                                   Opacity="0" />
+                        <Border x:Name="ButtonBorder"
+                                SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="TitleBarButtonContentPresenter"
+                                              Focusable="False"
+                                              TextBlock.Foreground="{StaticResource TitleBarForegroundGrayBrush}"
+                                              TextBlock.FontWeight="Bold"
+                                              TextBlock.FontFamily="pack://application:,,,/WPFMap;component/Fonts/#iconfont"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimation
+                                            To="1"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard Storyboard.TargetName="ButtonBackground" Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimation
+                                            To="0"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="True">
+                            <Setter Property="Opacity"
+                                    Value="0.6"
+                                    TargetName="ButtonBackground" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter TargetName="TitleBarButtonContentPresenter"
+                                    Property="Opacity"
+                                    Value=".5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MinimizeButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource WindowTitleBarButtonStyle}">
+        <Setter  Property="ToolTip"
+                 Value="最小化" />
+        <Setter Property="Background" 
+                Value="{DynamicResource ButtonMouseOverBackgroundDarkBrush}"/>
+        <Setter Property="Command"
+                Value="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}" />
+    </Style>
+
+    <Style x:Key="RestoreButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource WindowTitleBarButtonStyle}">
+        <Setter  Property="ToolBar.ToolTip"
+                 Value="恢复" />
+        <Setter Property="Background" 
+                Value="{DynamicResource ButtonMouseOverBackgroundDarkBrush}"/>
+        <Setter Property="Command"
+                Value="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}" />
+    </Style>
+
+    <Style x:Key="MaximizeButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource WindowTitleBarButtonStyle}">
+        <Setter  Property="ToolTip"
+                 Value="最大化" />
+        <Setter Property="Background" 
+                Value="{DynamicResource ButtonMouseOverBackgroundDarkBrush}"/>
+        <Setter Property="Command"
+                Value="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}" />
+    </Style>
+
+    <Style x:Key="CloseButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource WindowTitleBarButtonStyle}">
+        <Setter  Property="ToolTip"
+                 Value="关闭" />
+        <Setter Property="Command"
+                Value="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}" />
+    </Style>
+
+    <Style TargetType="{x:Type local:NMWindow}">
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+        <Setter Property="Background"
+                Value="#012456" />
+        <Setter Property="BorderBrush"
+                Value="#012456" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="ResizeMode"
+                Value="CanResizeWithGrip" />
+        <Setter Property="TextOptions.TextFormattingMode"
+                Value="Display" />
+        <Setter Property="WindowStyle"
+                Value="SingleBorderWindow" />
+        <Setter Property="UseLayoutRounding"
+                Value="True" />
+        <Setter Property="SnapsToDevicePixels"
+                Value="True" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CornerRadius="0"
+                      GlassFrameThickness="0"
+                      CaptionHeight="{Binding Path=(SystemParameters.WindowNonClientFrameThickness).Top}"
+                      UseAeroCaptionButtons="False"
+                      NonClientFrameEdges="None" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:NMWindow}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            x:Name="WindowBorder">
+                        <Grid x:Name="LayoutRoot"
+                              Background="{TemplateBinding Background}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="WindowTitlePanel"
+                                  Height="{Binding Path=(SystemParameters.WindowNonClientFrameThickness).Top}"
+                                  Background="{x:Null}"
+                                  Margin="0,-1,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{TemplateBinding Icon}"
+                                           VerticalAlignment="Center"
+                                           Margin="12,2,0,0"
+                                           Visibility="{Binding Icon,RelativeSource={RelativeSource Mode=TemplatedParent},Converter={StaticResource EmptyObjectToVisibilityConverter}}"
+                                           Height="{x:Static SystemParameters.SmallIconHeight}"
+                                           Width="{x:Static SystemParameters.SmallIconWidth}"
+                                           WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <Behaviors:Interaction.Triggers>
+                                            <Behaviors:EventTrigger EventName="MouseLeftButtonDown">
+                                                <Behaviors:InvokeCommandAction Command="{x:Static SystemCommands.ShowSystemMenuCommand}" />
+                                            </Behaviors:EventTrigger>
+                                            <Behaviors:EventTrigger EventName="MouseRightButtonDown">
+                                                <Behaviors:InvokeCommandAction Command="{x:Static SystemCommands.ShowSystemMenuCommand}" />
+                                            </Behaviors:EventTrigger>
+                                        </Behaviors:Interaction.Triggers>
+                                    </Image>
+                                    <ContentControl IsTabStop="False"
+                                                    Margin="10,0,0,0"
+                                                    Foreground="#FFFFFF"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    FontSize="13"
+                                                    Content="{TemplateBinding Title}" />
+                                </StackPanel>
+                                <StackPanel x:Name="WindowCommandButtonsPanel"
+                                            Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Stretch"
+                                            Background="#161923"
+                                            Orientation="Horizontal"
+                                            WindowChrome.IsHitTestVisibleInChrome="True"
+                                            Margin="0,0,2,0">
+                                    <ContentPresenter Content="{Binding WindowTitleBar, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                                                      Focusable="False" />
+                                    <Button x:Name="MinimizeButton"
+                                            VerticalAlignment="Bottom"
+                                            Content="&#xe717;"
+                                            Style="{StaticResource MinimizeButtonStyle}"
+                                            />
+                                    <Grid VerticalAlignment="Bottom">
+                                        <Button x:Name="RestoreButton"                 
+                                                Content="&#xe70d;"
+                                                Style="{StaticResource RestoreButtonStyle}"
+                                                Visibility="Collapsed" />
+                                        <Button x:Name="MaximizeButton"
+                                                Content="&#xe707;"
+                                                Style="{StaticResource MaximizeButtonStyle}" />
+                                    </Grid>
+                                    <Button x:Name="CloseButton"
+                                            Margin="1,2,1,0"
+                                            VerticalAlignment="Bottom"
+                                            Background="{StaticResource ButtonMouseOverBackgroundRedBrush}"
+                                            Content="&#xe709;"
+                                            Style="{StaticResource CloseButtonStyle}" />
+                                </StackPanel>
+                            </Grid>
+                            <AdornerDecorator Grid.Row="1"
+                                              KeyboardNavigation.IsTabStop="False">
+                                <ContentPresenter Content="{TemplateBinding Content}"
+                                                  x:Name="MainContentPresenter"
+                                                  KeyboardNavigation.TabNavigation="Cycle" />
+                            </AdornerDecorator>
+                            <ResizeGrip x:Name="ResizeGrip"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Grid.Row="1"
+                                        IsTabStop="False"
+                                        Visibility="Hidden"
+                                        WindowChrome.ResizeGripDirection="BottomRight" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsNonClientActive"
+                                 Value="False">
+                            <Setter Property="BorderBrush"
+                                    Value="#FF6F7785" />
+                        </Trigger>
+                        <Trigger Property="WindowState"
+                                 Value="Maximized">
+                            <Setter TargetName="MaximizeButton"
+                                    Property="Visibility"
+                                    Value="Collapsed" />
+                            <Setter TargetName="RestoreButton"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            <Setter TargetName="WindowBorder"
+                                    Property="BorderThickness"
+                                    Value="0" />
+                            <Setter TargetName="WindowBorder"
+                                    Property="Padding"
+                                    Value="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+                            <Setter Property="Margin"
+                                    TargetName="LayoutRoot"
+                                    Value="{x:Static local:WindowParameters.PaddedBorderThickness}" />
+                        </Trigger>
+                        <Trigger Property="WindowState"
+                                 Value="Normal">
+                            <Setter TargetName="MaximizeButton"
+                                    Property="Visibility"
+                                    Value="Visible" />
+                            <Setter TargetName="RestoreButton"
+                                    Property="Visibility"
+                                    Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="ResizeMode"
+                                 Value="NoResize">
+                            <Setter TargetName="MinimizeButton"
+                                    Property="Visibility"
+                                    Value="Collapsed" />
+                            <Setter TargetName="MaximizeButton"
+                                    Property="Visibility"
+                                    Value="Collapsed" />
+                            <Setter TargetName="RestoreButton"
+                                    Property="Visibility"
+                                    Value="Collapsed" />
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ResizeMode"
+                                           Value="CanResizeWithGrip" />
+                                <Condition Property="WindowState"
+                                           Value="Normal" />
+                            </MultiTrigger.Conditions>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+</ResourceDictionary>
