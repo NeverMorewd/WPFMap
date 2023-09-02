@@ -1,2 +1,2 @@
 # WPFMap
-使用wpf加载一个可交互的部分中国地图
+Use WPF to load an interactive partial map of China
